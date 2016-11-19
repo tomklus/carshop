@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `addresses`
+--
+
+DROP TABLE IF EXISTS `addresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `addresses` (
+  `street` varchar(20) DEFAULT NULL,
+  `number` varchar(10) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `zip` varchar(10) DEFAULT NULL,
+  `country` varchar(20) DEFAULT NULL,
+  `address_id` int(11) NOT NULL,
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `addresses`
+--
+
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cars`
 --
 
@@ -30,7 +57,9 @@ CREATE TABLE `cars` (
   `color` varchar(20) DEFAULT NULL,
   `milage` int(11) DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`VIN`)
+  PRIMARY KEY (`VIN`),
+  KEY `registration_plate` (`registration_plate`),
+  CONSTRAINT `cars_ibfk_1` FOREIGN KEY (`registration_plate`) REFERENCES `registration_plates` (`current_plate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,7 +83,10 @@ CREATE TABLE `clients` (
   `client_id` int(11) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `surname` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`client_id`)
+  `address_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`client_id`),
+  KEY `address_id` (`address_id`),
+  CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`address_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -75,13 +107,16 @@ DROP TABLE IF EXISTS `employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employees` (
-  `emoplyee_id` double NOT NULL,
+  `employee_id` int(11) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `surname` varchar(20) DEFAULT NULL,
   `shop` varchar(20) DEFAULT NULL,
   `hire_date` date DEFAULT NULL,
   `gender` char(1) DEFAULT NULL,
-  PRIMARY KEY (`emoplyee_id`)
+  `address_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `address_id` (`address_id`),
+  CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`address_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -92,6 +127,37 @@ CREATE TABLE `employees` (
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `equipment`
+--
+
+DROP TABLE IF EXISTS `equipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `equipment` (
+  `VIN` char(17) NOT NULL,
+  `number_of_airbags` tinyint(4) DEFAULT NULL,
+  `power_steering` tinyint(1) DEFAULT NULL,
+  `leather_seats` tinyint(1) DEFAULT NULL,
+  `abs` tinyint(1) DEFAULT NULL,
+  `esp` tinyint(1) DEFAULT NULL,
+  `asr` tinyint(1) DEFAULT NULL,
+  `automatic_gearbox` tinyint(1) DEFAULT NULL,
+  `gps` tinyint(1) DEFAULT NULL,
+  `aluminium_rims` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`VIN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `equipment`
+--
+
+LOCK TABLES `equipment` WRITE;
+/*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -106,7 +172,13 @@ CREATE TABLE `invoices` (
   `order_id` int(11) DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
   `invoice_status` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`invoice_id`)
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`invoice_id`),
+  KEY `order_id` (`order_id`),
+  KEY `client_id` (`client_id`),
+  CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  CONSTRAINT `invoices_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -131,7 +203,18 @@ CREATE TABLE `orders` (
   `VIN` char(17) DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
   `employee_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`order_id`)
+  `invoice_id` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`order_id`),
+  KEY `client_id` (`client_id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `VIN` (`VIN`),
+  KEY `invoice_id` (`invoice_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`),
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`VIN`) REFERENCES `cars` (`VIN`),
+  CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -142,6 +225,91 @@ CREATE TABLE `orders` (
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `payment_method` enum('cash','card','transfer') DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `order_id` (`order_id`),
+  KEY `client_id` (`client_id`),
+  CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payments`
+--
+
+LOCK TABLES `payments` WRITE;
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `registration_plates`
+--
+
+DROP TABLE IF EXISTS `registration_plates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `registration_plates` (
+  `current_plate` char(10) NOT NULL,
+  `previous_plates` char(50) DEFAULT NULL,
+  `VIN` char(17) DEFAULT NULL,
+  PRIMARY KEY (`current_plate`),
+  KEY `VIN` (`VIN`),
+  CONSTRAINT `registration_plates_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `cars` (`VIN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `registration_plates`
+--
+
+LOCK TABLES `registration_plates` WRITE;
+/*!40000 ALTER TABLE `registration_plates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `registration_plates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `repairs`
+--
+
+DROP TABLE IF EXISTS `repairs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `repairs` (
+  `repair_id` int(11) NOT NULL,
+  `typ` varchar(30) DEFAULT NULL,
+  `cost` float DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `VIN` char(17) DEFAULT NULL,
+  PRIMARY KEY (`repair_id`),
+  KEY `VIN` (`VIN`),
+  CONSTRAINT `repairs_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `cars` (`VIN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `repairs`
+--
+
+LOCK TABLES `repairs` WRITE;
+/*!40000 ALTER TABLE `repairs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `repairs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -157,7 +325,13 @@ CREATE TABLE `reservations` (
   `from_date` date DEFAULT NULL,
   `until_date` date DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`reservation_id`)
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`reservation_id`),
+  KEY `VIN` (`VIN`),
+  KEY `client_id` (`client_id`),
+  CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `cars` (`VIN`),
+  CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,6 +342,32 @@ CREATE TABLE `reservations` (
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salaries`
+--
+
+DROP TABLE IF EXISTS `salaries`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salaries` (
+  `salary_id` int(11) NOT NULL,
+  `employee_id` int(11) DEFAULT NULL,
+  `salary` float DEFAULT NULL,
+  PRIMARY KEY (`salary_id`),
+  KEY `employee_id` (`employee_id`),
+  CONSTRAINT `salaries_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salaries`
+--
+
+LOCK TABLES `salaries` WRITE;
+/*!40000 ALTER TABLE `salaries` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salaries` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -182,6 +382,8 @@ CREATE TABLE `test_drives` (
   `customer_id` int(11) DEFAULT NULL,
   `drive_date` datetime DEFAULT NULL,
   `VIN` char(17) DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`drive_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -204,4 +406,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-08  9:32:13
+-- Dump completed on 2016-11-19 10:45:10
