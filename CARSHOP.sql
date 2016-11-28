@@ -39,6 +39,7 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+INSERT INTO `addresses` VALUES ('Reymonta','11','Krakow','30-059','Polska',1),('Lojasiewicza','33','Krakow','30-759','Polska',2),('Rynek Glowny','3','Krakow','32-459','Polska',3),('Lojasiewicza','3','Krakow','30-159','Polska',4),('Slomiana','22','Krakow','30-149','Polska',5);
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,6 +127,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
+INSERT INTO `employees` VALUES (1,'Jacek','Kowalski','Ostrava','2016-11-22','M',1),(2,'Jan','Dabrowa','Ostrava','2016-11-22','M',2),(3,'Catalina','Rodriguez','Ostrava','2016-11-22','F',3),(4,'Ania','Wania','Katowice','2016-11-22','F',4);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-19 10:45:10
+-- Dump completed on 2016-11-28 17:47:50
