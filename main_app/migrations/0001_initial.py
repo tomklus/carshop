@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('production_year', models.TextField(null=True, blank=True)),
                 ('category', models.CharField(max_length=20, null=True, blank=True)),
                 ('color', models.CharField(max_length=20, null=True, blank=True)),
-                ('milage', models.IntegerField(null=True, blank=True)),
+                ('mileage', models.IntegerField(null=True, blank=True)),
                 ('status', models.CharField(max_length=20, null=True, blank=True)),
             ],
             options={

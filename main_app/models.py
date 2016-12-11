@@ -20,6 +20,9 @@ class Addresses(models.Model):
     country = models.CharField(max_length=20, blank=True, null=True)
     address_id = models.IntegerField(primary_key=True)
 
+    def __str__(self):
+        return self.street + " " + self.number
+
     class Meta:
         managed = False
         db_table = 'addresses'
@@ -34,6 +37,10 @@ class Cars(models.Model):
     milage = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=20, blank=True, null=True)
 
+    def __str__(self):
+        return self.vin
+
+
     class Meta:
         managed = False
         db_table = 'cars'
@@ -44,6 +51,9 @@ class Clients(models.Model):
     name = models.CharField(max_length=20, blank=True, null=True)
     surname = models.CharField(max_length=20, blank=True, null=True)
     address = models.ForeignKey(Addresses, blank=True, null=True)
+
+    def __str__(self):
+        return self.name + " " + self.surname
 
     class Meta:
         managed = False
@@ -59,13 +69,16 @@ class Employees(models.Model):
     gender = models.CharField(max_length=1, blank=True, null=True)
     address = models.ForeignKey(Addresses, blank=True, null=True)
 
+    def __str__(self):
+        return self.name + " " + self.surname
+
     class Meta:
         managed = False
         db_table = 'employees'
 
 
 class Equipment(models.Model):
-    vin = models.CharField(db_column='VIN', primary_key=True, max_length=17)  # Field name made lowercase.
+    vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
     number_of_airbags = models.IntegerField(blank=True, null=True)
     power_steering = models.IntegerField(blank=True, null=True)
     leather_seats = models.IntegerField(blank=True, null=True)
@@ -75,6 +88,9 @@ class Equipment(models.Model):
     automatic_gearbox = models.IntegerField(blank=True, null=True)
     gps = models.IntegerField(blank=True, null=True)
     aluminium_rims = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.vin
 
     class Meta:
         managed = False
@@ -88,6 +104,9 @@ class Invoices(models.Model):
     invoice_status = models.CharField(max_length=20, blank=True, null=True)
     created = models.DateTimeField(blank=True, null=True)
     modified = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.invoice_id
 
     class Meta:
         managed = False
@@ -103,6 +122,9 @@ class Orders(models.Model):
     created = models.DateTimeField(blank=True, null=True)
     modified = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return self.order_id
+
     class Meta:
         managed = False
         db_table = 'orders'
@@ -116,6 +138,9 @@ class Payments(models.Model):
     amount = models.FloatField(blank=True, null=True)
     payment_date = models.DateField(blank=True, null=True)
 
+    def __str__(self):
+        return self.payment_id
+
     class Meta:
         managed = False
         db_table = 'payments'
@@ -125,6 +150,9 @@ class RegistrationPlates(models.Model):
     current_plate = models.CharField(primary_key=True, max_length=10)
     previous_plates = models.CharField(max_length=50, blank=True, null=True)
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
+
+    def __str__(self):
+        return self.current_plate
 
     class Meta:
         managed = False
@@ -137,6 +165,9 @@ class Repairs(models.Model):
     cost = models.FloatField(blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
+
+    def __str__(self):
+        return self.repair_id
 
     class Meta:
         managed = False
@@ -152,6 +183,9 @@ class Reservations(models.Model):
     created = models.DateTimeField(blank=True, null=True)
     modified = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return self.reservation_id
+
     class Meta:
         managed = False
         db_table = 'reservations'
@@ -159,11 +193,14 @@ class Reservations(models.Model):
 
 class TestDrives(models.Model):
     drive_id = models.IntegerField(primary_key=True)
-    customer_id = models.IntegerField(blank=True, null=True)
+    client = models.ForeignKey(Clients, blank=True, null=True)
     drive_date = models.DateTimeField(blank=True, null=True)
-    vin = models.CharField(db_column='VIN', max_length=17, blank=True, null=True)  # Field name made lowercase.
+    vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
     created = models.DateTimeField(blank=True, null=True)
     modified = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.drive_id
 
     class Meta:
         managed = False
