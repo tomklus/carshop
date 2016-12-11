@@ -25,6 +25,7 @@ class Addresses(models.Model):
 
     class Meta:
         managed = False
+
         db_table = 'addresses'
 
 
@@ -34,7 +35,7 @@ class Cars(models.Model):
     production_year = models.TextField(blank=True, null=True)  # This field type is a guess.
     category = models.CharField(max_length=20, blank=True, null=True)
     color = models.CharField(max_length=20, blank=True, null=True)
-    milage = models.IntegerField(blank=True, null=True)
+    mileage = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
@@ -106,7 +107,7 @@ class Invoices(models.Model):
     modified = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.invoice_id
+        return str(self.invoice_id)
 
     class Meta:
         managed = False
@@ -123,7 +124,7 @@ class Orders(models.Model):
     modified = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.order_id
+        return str(self.order_id)
 
     class Meta:
         managed = False
@@ -139,7 +140,7 @@ class Payments(models.Model):
     payment_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.payment_id
+        return str(self.payment_id)
 
     class Meta:
         managed = False
@@ -167,7 +168,7 @@ class Repairs(models.Model):
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
 
     def __str__(self):
-        return self.repair_id
+        return str(self.repair_id)
 
     class Meta:
         managed = False
@@ -184,7 +185,7 @@ class Reservations(models.Model):
     modified = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.reservation_id
+        return str(self.reservation_id)
 
     class Meta:
         managed = False
@@ -200,8 +201,8 @@ class TestDrives(models.Model):
     modified = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.drive_id
+        return str(self.drive_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'test_drives'

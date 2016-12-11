@@ -13,7 +13,7 @@ admin.site.register(Employees, EmployeeAdmin)
 
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('vin', 'registration_plate', 'production_year', 'category', 'color', 'milage', 'status')
+    list_display = ('vin', 'registration_plate', 'production_year', 'category', 'color', 'mileage', 'status')
 admin.site.register(Cars, CarAdmin)
 
 class ClientAdmin(admin.ModelAdmin):
@@ -52,5 +52,5 @@ admin.site.register(Reservations, ReservationAdmin)
 
 
 class TestDriveAdmin(admin.ModelAdmin):
-    list_display = ('drive_id', 'client', 'drive_date', 'vin', 'created', 'modified')
+    list_display = ('drive_id', 'client_id', 'drive_date', 'vin', 'created', 'modified')
 admin.site.register(TestDrives, TestDriveAdmin)
