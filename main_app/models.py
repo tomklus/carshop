@@ -8,8 +8,10 @@
 # Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
 # into your database.
 from __future__ import unicode_literals
-
+from django.utils import timezone
+from django.core.urlresolvers import reverse
 from django.db import models
+
 
 
 class Addresses(models.Model):
@@ -19,12 +21,14 @@ class Addresses(models.Model):
     zip = models.CharField(max_length=10, blank=True, null=True)
     country = models.CharField(max_length=20, blank=True, null=True)
     address_id = models.IntegerField(primary_key=True)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.street + " " + self.number
 
     class Meta:
-        managed = False
+        managed = True
 
         db_table = 'addresses'
 
@@ -36,14 +40,26 @@ class Cars(models.Model):
     category = models.CharField(max_length=20, blank=True, null=True)
     color = models.CharField(max_length=20, blank=True, null=True)
     mileage = models.IntegerField(blank=True, null=True)
-    status = models.CharField(max_length=20, blank=True, null=True)
+    available = models.BooleanField(default=True)
+    price = models.IntegerField(blank=True, null=True)
+    make = models.CharField(max_length=20, blank=True, null=True)
+    model = models.CharField(max_length=20, blank=True, null=True)
+    version = models.CharField(max_length=20, blank=True, null=True)
+    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
+
 
     def __str__(self):
-        return self.vin
+        return str(self.vin)
 
 
     class Meta:
-        managed = False
+        ordering = ('make',)
+        managed = True
         db_table = 'cars'
 
 
@@ -52,12 +68,16 @@ class Clients(models.Model):
     name = models.CharField(max_length=20, blank=True, null=True)
     surname = models.CharField(max_length=20, blank=True, null=True)
     address = models.ForeignKey(Addresses, blank=True, null=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.name + " " + self.surname
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'clients'
 
 
@@ -69,17 +89,20 @@ class Employees(models.Model):
     hire_date = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=1, blank=True, null=True)
     address = models.ForeignKey(Addresses, blank=True, null=True)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name + " " + self.surname
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'employees'
 
 
 class Equipment(models.Model):
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
+    eq_id = models.IntegerField(primary_key=True)
     number_of_airbags = models.IntegerField(blank=True, null=True)
     power_steering = models.IntegerField(blank=True, null=True)
     leather_seats = models.IntegerField(blank=True, null=True)
@@ -89,12 +112,13 @@ class Equipment(models.Model):
     automatic_gearbox = models.IntegerField(blank=True, null=True)
     gps = models.IntegerField(blank=True, null=True)
     aluminium_rims = models.IntegerField(blank=True, null=True)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.vin
+        return str(self.eq_id)
 
     class Meta:
-        managed = False
         db_table = 'equipment'
 
 
@@ -103,14 +127,16 @@ class Invoices(models.Model):
     order = models.ForeignKey('Orders', blank=True, null=True)
     client = models.ForeignKey(Clients, blank=True, null=True)
     invoice_status = models.CharField(max_length=20, blank=True, null=True)
-    created = models.DateTimeField(blank=True, null=True)
-    modified = models.DateTimeField(blank=True, null=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return str(self.invoice_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'invoices'
 
 
@@ -120,14 +146,16 @@ class Orders(models.Model):
     client = models.ForeignKey(Clients, blank=True, null=True)
     employee = models.ForeignKey(Employees, blank=True, null=True)
     invoice = models.ForeignKey(Invoices, blank=True, null=True)
-    created = models.DateTimeField(blank=True, null=True)
-    modified = models.DateTimeField(blank=True, null=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return str(self.order_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'orders'
 
 
@@ -138,12 +166,16 @@ class Payments(models.Model):
     payment_method = models.CharField(max_length=8, blank=True, null=True)
     amount = models.FloatField(blank=True, null=True)
     payment_date = models.DateField(blank=True, null=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return str(self.payment_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'payments'
 
 
@@ -151,12 +183,15 @@ class RegistrationPlates(models.Model):
     current_plate = models.CharField(primary_key=True, max_length=10)
     previous_plates = models.CharField(max_length=50, blank=True, null=True)
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.current_plate
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'registration_plates'
 
 
@@ -166,12 +201,15 @@ class Repairs(models.Model):
     cost = models.FloatField(blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return str(self.repair_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'repairs'
 
 
@@ -181,14 +219,16 @@ class Reservations(models.Model):
     from_date = models.DateField(blank=True, null=True)
     until_date = models.DateField(blank=True, null=True)
     client = models.ForeignKey(Clients, blank=True, null=True)
-    created = models.DateTimeField(blank=True, null=True)
-    modified = models.DateTimeField(blank=True, null=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return str(self.reservation_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'reservations'
 
 
@@ -197,8 +237,10 @@ class TestDrives(models.Model):
     client = models.ForeignKey(Clients, blank=True, null=True)
     drive_date = models.DateTimeField(blank=True, null=True)
     vin = models.ForeignKey(Cars, db_column='VIN', blank=True, null=True)  # Field name made lowercase.
-    created = models.DateTimeField(blank=True, null=True)
-    modified = models.DateTimeField(blank=True, null=True)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(default=timezone.now,blank=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return str(self.drive_id)
@@ -206,3 +248,19 @@ class TestDrives(models.Model):
     class Meta:
         managed = True
         db_table = 'test_drives'
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+
+    def get_absolute_url(self):
+        return reverse('shop:product_list_by_category',
+                       args=[self.slug])
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+    def __str__(self):
+        return self.name

@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'addresses',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'cars',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'clients',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -64,7 +64,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'employees',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'equipment',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -96,7 +96,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'invoices',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'orders',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'payments',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -132,7 +132,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'registration_plates',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'repairs',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -159,7 +159,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'reservations',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -174,7 +174,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'test_drives',
-                'managed': False,
+                'managed': True,
             },
         ),
     ]
