@@ -1,11 +1,46 @@
+{% load staticfiles %}
 <!DOCTYPE html>
     <html>
         <head>
-            <title>TreasureGram</title>
+            <title>{% block title %}{% endblock %}</title>
         </head>
         <body>
-            {% for address in addresses %}
-            <h1>{{ address.street }}</h1>
-            {% endfor %}
+
+        <div id="header">
+            <span class="logo">Bookmarks</span>
+        </div>
+
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div id="header">
+        <ul class="menu">
+
+            <li {% if section == "dashboard" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:dashboard' %}">My dashboard</a>
+            </li>
+
+            <li {% if section == "clients" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:client_list' %}">Clients</a>
+            </li>
+
+            <li {% if section == "cars" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:car_list' %}">Cars</a>
+            </li>
+
+            <li {% if section == "employees" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:employee_list' %}">Employees</a>
+            </li>
+
+            <li {% if section == "invoice" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:invoice_list' %}">Invoices</a>
+            </li>
+
+
+
+        </ul>
+        </div>
         </body>
 </html>

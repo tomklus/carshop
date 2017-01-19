@@ -1,19 +1,68 @@
-{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>{% block title %}My shop{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <div id="header">
-        <a href="/" class="logo">My shop</a>
-    </div>
-    <div id="subheader">
-    <div class="cart">
-        Your cart is empty.
-    </div>
-    </div>
+        <ul class="menu">
+
+            <li {% if section == "dashboard" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:dashboard' %}">My dashboard</a>
+            </li>
+
+            <li {% if section == "clients" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:client_list' %}">Clients</a>
+            </li>
+
+            <li {% if section == "cars" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:car_list' %}">Cars</a>
+            </li>
+
+            <li {% if section == "employees" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:employee_list' %}">Employees</a>
+            </li>
+
+            <li {% if section == "invoices" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:invoice_list' %}">Invoices</a>
+            </li>
+
+            <li {% if section == "orders" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:order_list' %}">Orders</a>
+            </li>
+
+            <li {% if section == "payments" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:payment_list' %}">Payments</a>
+            </li>
+
+            <li {% if section == "plates" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:plate_list' %}">Registration Plates</a>
+            </li>
+
+            <li {% if section == "testdrives" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:testdrive_list' %}">Test Drives</a>
+            </li>
+
+             <li {% if section == "reservations" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:reservation_list' %}">Reservations</a>
+            </li>
+
+
+             <li {% if section == "repairs" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:repair_list' %}">Repairs</a>
+            </li>
+
+
+             <li {% if section == "equipments" %} class="selected" {% endif %}>
+            <a href="{% url 'main_app:equipment_list' %}">Equipments</a>
+            </li>
+
+
+
+
+        </ul>
+        </div>
     <div id="content">
         {% block content %}
         {% endblock %}

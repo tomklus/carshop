@@ -27,6 +27,9 @@ class Addresses(models.Model):
     def __str__(self):
         return self.street + " " + self.number
 
+    def __unicode__(self):
+        return u'%s %s' %(self.street ,self.number)
+
     class Meta:
         managed = True
 
@@ -51,7 +54,8 @@ class Cars(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
 
-
+    def __unicode__(self):
+        return u'%s %s %s %s' %(self.vin, self.make, self.model, self.production_year)
 
     def __str__(self):
         return str(self.vin)
@@ -72,6 +76,8 @@ class Clients(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return u'%s %s' %(self.name ,self.surname)
 
     def __str__(self):
         return self.name + " " + self.surname
@@ -91,6 +97,9 @@ class Employees(models.Model):
     address = models.ForeignKey(Addresses, blank=True, null=True)
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return u'%s %s' %(self.name ,self.surname)
 
     def __str__(self):
         return self.name + " " + self.surname
@@ -115,6 +124,9 @@ class Equipment(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return u'%s %s' %(self.eq_id, self.vin)
+
     def __str__(self):
         return str(self.eq_id)
 
@@ -131,6 +143,9 @@ class Invoices(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+
+    def __unicode__(self):
+        return u'%s %s' %(self.invoice_id ,self.order)
 
     def __str__(self):
         return str(self.invoice_id)
@@ -151,6 +166,9 @@ class Orders(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
 
+    def __unicode__(self):
+        return u'%s %s %s' %(self.order_id, self.client, self.vin)
+
     def __str__(self):
         return str(self.order_id)
 
@@ -170,6 +188,8 @@ class Payments(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return u'%s %s' %(self.payment_id, self.order)
 
     def __str__(self):
         return str(self.payment_id)
@@ -186,6 +206,9 @@ class RegistrationPlates(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+
+    def __unicode__(self):
+        return u'%s' %(self.current_plate)
 
     def __str__(self):
         return self.current_plate
@@ -204,6 +227,8 @@ class Repairs(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return u'%s %s ' %(self.repair_id, self.vin)
 
     def __str__(self):
         return str(self.repair_id)
@@ -223,6 +248,8 @@ class Reservations(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return u'%s %s' %(self.reservation_id, self.client)
 
     def __str__(self):
         return str(self.reservation_id)
@@ -241,6 +268,9 @@ class TestDrives(models.Model):
     created = models.DateTimeField(default=timezone.now,blank=True)
     updated = models.DateTimeField(auto_now=True)
 
+
+    def __unicode__(self):
+        return u'%s %s %s' %(self.vin, self.client, self.drive_date)
 
     def __str__(self):
         return str(self.drive_id)

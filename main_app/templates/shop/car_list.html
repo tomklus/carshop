@@ -1,0 +1,11 @@
+{% extends "shop/base.html" %}
+{% block title %}Cars{% endblock %}
+{% block content %}
+        <h2>Avaliable Cars</h2>
+        <ul>
+            {% for client in object_list %}
+                <li>{{ client }} {{ client.model}} {{ client.production_year}}</li>
+
+            {% endfor %}
+        </ul>
+    {% endblock %}

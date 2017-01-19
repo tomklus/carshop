@@ -1,0 +1,13 @@
+
+
+{% extends "shop/base.html" %}
+{% block title %}Clients{% endblock %}
+    {% block content %}
+        <h2>Clients</h2>
+        <ul>
+            {% for client in object_list %}
+                <li>{{ client }}</li>
+
+            {% endfor %}
+        </ul>
+    {% endblock %}

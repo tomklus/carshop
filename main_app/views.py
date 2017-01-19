@@ -1,8 +1,59 @@
 from django.http import HttpResponse
-from .models import Addresses, Cars, Category
+from models import *
 from django.shortcuts import render, get_object_or_404
+import datetime
+from django.views.generic import ListView
 
 # Create your views here.
+
+def current_datetime(request):
+    now = datetime.datetime.now()
+    html = "<html><body>It is now %s.</body></html>" % now
+    return HttpResponse(html)
+
+def dashboard(request):
+    return render(request,'shop/dashboard.html',{'section': 'dashboard'})
+
+class DetailList(ListView):
+    model = [Clients, Cars]
+
+
+class ClientList(ListView):
+    model = Clients
+
+class AddressList(ListView):
+    model = Addresses
+
+class CarList(ListView):
+    model = Cars
+
+class EmployeeList(ListView):
+    model = Employees
+
+class EquipmentList(ListView):
+    model = Equipment
+
+class InvoiceList(ListView):
+    model = Invoices
+
+class OrderList(ListView):
+    model = Orders
+
+class PaymentList(ListView):
+    model = Payments
+
+class PlatesList(ListView):
+    model = RegistrationPlates
+
+class RepairList(ListView):
+    model = Repairs
+
+class ReservationList(ListView):
+    model = Reservations
+
+class TestDriveList(ListView):
+    model = TestDrives
+
 
 def index(request):
 
