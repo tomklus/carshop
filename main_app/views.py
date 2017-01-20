@@ -16,9 +16,11 @@ def current_datetime(request):
 #    return HttpResponse("You're looking at question %s." % vin)
 
 def carDetail(request, vin):
-    car = Cars.objects.filter(vin=vin)
+
     allCars = Cars.objects.all()
-    return render(request,'shop/car/detail.html', {'car': car, 'cars': allCars})
+    car = allCars.filter(vin=vin)
+    carData = serializers.serialize("python", car)
+    return render(request,'shop/car/detail.html', {'car': car, 'cars': allCars, 'carData':carData})
 
 def dashboard(request):
     return render(request,'shop/dashboard.html',{'section': 'dashboard'})
@@ -31,6 +33,11 @@ def clientList(request):
     allClients = Clients.objects.all()
     return render(request, 'shop/base_clients.html', {'clients': allClients})
 
+def orderDetail(request, order_id):
+    order = Orders.objects.filter(order_id=order_id)
+    allOrders = Orders.objects.all()
+    return render(request, 'shop/order_detail.html', {'order': order, 'orders': allOrders})
+
 def clientDetail(request, client_id):
     client = Clients.objects.filter(client_id=client_id)
     allClients = Clients.objects.all()
@@ -42,6 +49,10 @@ class AddressList(ListView):
 def carList(request):
     allCars = Cars.objects.all()
     return render(request, 'shop/base_car.html', {'cars': allCars})
+
+def orderList(request):
+    allOrders = Orders.objects.all()
+    return render(request, 'shop/base_orders.html', {'orders': allOrders})
 
 class EmployeeList(ListView):
     model = Employees

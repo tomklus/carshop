@@ -13,7 +13,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 
-
+#INSERT INTO `addresses` (`street`, `number`, `city`, `zip`, `country`, `address_id`, `created`, `updated`) VALUES ('Miodowa', '3', 'Olkusz', '45813', 'Polska', 44, '2017-01-20 21:42:48', '2017-01-20 21:43:34.074602'); args=(u'Miodowa', u'3', u'Olkusz', u'45813', u'Polska', 44, u'2017-01-20 21:42:48', u'2017-01-20 21:43:34.074602')
 class Addresses(models.Model):
     street = models.CharField(max_length=20, blank=True, null=True)
     number = models.CharField(max_length=10, blank=True, null=True)

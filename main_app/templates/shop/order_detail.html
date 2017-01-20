@@ -1,0 +1,16 @@
+{% extends "shop/base_orders.html" %}
+{% load staticfiles %}
+{% block title %}{{order.0}}{% endblock %}
+
+{% block middle %}
+        <h2>Orders</h2>
+        <ul>
+            {% for order in orders %}
+            <li><a href="/orders/{{ order.order_id }}/">{{ order.client }}&nbsp Order ID:{{order.order_id}}</a></li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+
+{% block right %}
+<p> {{ order.0 }} </p>
+{% endblock %}

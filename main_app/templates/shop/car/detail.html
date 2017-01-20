@@ -16,11 +16,16 @@
 {% block right %}
     <p>Car Details:</p>
     <table>
-    <tr>
-    <p> Make: {{ car.0.make }} {{car.0.registration_plate}}</p>
-    </tr>
+        <td>
+            <tr>
+                {% for instance in carData %}
+                    {% for field, value in instance.fields.items %}
+                {{ field }}: {{ value }}</br>
+                    {% endfor %}
+                {% endfor %}
+            </tr>
 
-
+        </td>
 
     </table>
 {% endblock %}

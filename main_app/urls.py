@@ -23,8 +23,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^main_app/', views.dashboard),
-    url(r'^clients/$', views.clientList,name='client_list'),
+    url(r'^clients/', views.clientList,name='client_list'),
     url(r'^clients/(?P<client_id>[0-9]+)', views.clientDetail,name='clientDetail'),
+    url(r'^orders/(?P<order_id>[0-9]+)', views.orderDetail, name='orderDetail'),
+    url(r'^orders/', views.orderList,name='order_list'),
     url(r'^adds/$', AddressList.as_view(template_name="shop/client_list.html"),name='address_list'),
     url(r'^cars/(?P<vin>([A-Z,a-z,0-9]+))', views.carDetail, name='carDetail'),
     url(r'^cars/$', views.carList, name='carList'),
