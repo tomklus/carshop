@@ -1,0 +1,19 @@
+{% extends "shop/base.html" %}
+{% load staticfiles %}
+{% block title %}Clients{% endblock %}
+
+{% block middle %}
+
+        <h2>Our clients</h2>
+        <ul>
+            {% for client in clients %}
+            <li><a href="/clients/{{ client.client_id }}/">{{ client.name }}&nbsp{{client.surname}}</a></li>
+            {% endfor %}
+        </ul>
+
+{% endblock %}
+
+    {% block right %}
+    {% endblock %}
+
+

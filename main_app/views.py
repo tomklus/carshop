@@ -3,6 +3,7 @@ from models import *
 from django.shortcuts import render, get_object_or_404
 import datetime
 from django.views.generic import ListView
+from django.core import serializers
 
 # Create your views here.
 
@@ -11,6 +12,14 @@ def current_datetime(request):
     html = "<html><body>It is now %s.</body></html>" % now
     return HttpResponse(html)
 
+#def detail(request, vin):
+#    return HttpResponse("You're looking at question %s." % vin)
+
+def carDetail(request, vin):
+    car = Cars.objects.filter(vin=vin)
+    allCars = Cars.objects.all()
+    return render(request,'shop/car/detail.html', {'car': car, 'cars': allCars})
+
 def dashboard(request):
     return render(request,'shop/dashboard.html',{'section': 'dashboard'})
 
@@ -18,14 +27,21 @@ class DetailList(ListView):
     model = [Clients, Cars]
 
 
-class ClientList(ListView):
-    model = Clients
+def clientList(request):
+    allClients = Clients.objects.all()
+    return render(request, 'shop/base_clients.html', {'clients': allClients})
+
+def clientDetail(request, client_id):
+    client = Clients.objects.filter(client_id=client_id)
+    allClients = Clients.objects.all()
+    return render(request,'shop/client_detail.html', {'client': client, 'clients': allClients})
 
 class AddressList(ListView):
     model = Addresses
 
-class CarList(ListView):
-    model = Cars
+def carList(request):
+    allCars = Cars.objects.all()
+    return render(request, 'shop/base_car.html', {'cars': allCars})
 
 class EmployeeList(ListView):
     model = Employees

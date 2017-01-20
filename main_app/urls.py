@@ -23,9 +23,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^main_app/', views.dashboard),
-    url(r'^clients/$', ClientList.as_view(template_name="shop/client_list.html"),name='client_list'),
+    url(r'^clients/$', views.clientList,name='client_list'),
+    url(r'^clients/(?P<client_id>[0-9]+)', views.clientDetail,name='clientDetail'),
     url(r'^adds/$', AddressList.as_view(template_name="shop/client_list.html"),name='address_list'),
-    url(r'^cars/$', CarList.as_view(template_name="shop/car_list.html"),name='car_list'),
+    url(r'^cars/(?P<vin>([A-Z,a-z,0-9]+))', views.carDetail, name='carDetail'),
+    url(r'^cars/$', views.carList, name='carList'),
     url(r'^employees/$', EmployeeList.as_view(template_name="shop/client_list.html"),name='employee_list'),
     url(r'^equipment/$', EquipmentList.as_view(template_name="shop/client_list.html"),name='equipment_list'),
     url(r'^invoices/$', InvoiceList.as_view(template_name="shop/client_list.html"),name='invoice_list'),
@@ -36,7 +38,7 @@ urlpatterns = [
     url(r'^testdrives/$', TestDriveList.as_view(template_name="shop/client_list.html"), name='testdrive_list'),
     url(r'^orders/$', OrderList.as_view(template_name="shop/client_list.html"), name='order_list'),
     url(r'^$', views.dashboard, name='dashboard'),
-    #url(r'^$', views.car_list, name='product_list'),
+    url(r'^products', views.car_list, name='product_list'),
     #url(r'^(?P<category_slug>[-\w]+)/$', views.car_list, name='product_list_by_category'),
     #url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.car_detail, name='product_detail'),
 ]

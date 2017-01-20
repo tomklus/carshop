@@ -2,12 +2,22 @@
 
 {% extends "shop/base.html" %}
 {% block title %}Clients{% endblock %}
-    {% block content %}
+    {% block middle %}
         <h2>Clients</h2>
         <ul>
             {% for client in object_list %}
-                <li>{{ client }}</li>
+
+                <li {% if section == client %} class="selected" {% endif %}>
+                <a href="{% url 'cars/1FTBF2BT3EEB72415' %}">{{ client }}</a>
+                </li>
+
 
             {% endfor %}
         </ul>
     {% endblock %}
+
+    {% block right %}
+        <p>YOYOYOOYOYO</p>
+    {% endblock %}
+
+

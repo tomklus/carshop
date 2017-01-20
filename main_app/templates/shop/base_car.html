@@ -6,7 +6,7 @@
     <div id="middle">
         <h2>Avaliable Cars</h2>
         <ul>
-            {% for car in object_list %}
+            {% for car in cars %}
             <li><a href="/cars/{{ car.vin }}/">{{ car.make }}&nbsp{{car.model}}&nbsp{{car.production_year}}</a></li>
             {% endfor %}
         </ul>

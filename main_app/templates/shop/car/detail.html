@@ -1,0 +1,26 @@
+{% extends "shop/base_car.html" %}
+{% load staticfiles %}
+{% block title %}{{car.0.make}}{% endblock %}
+
+{% block middle %}
+    <div id="middle">
+        <h2>Avaliable Cars</h2>
+        <ul>
+            {% for car in cars %}
+            <li><a href="/cars/{{ car.vin }}/">{{ car.make }}&nbsp{{car.model}}&nbsp{{car.production_year}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block right %}
+    <p>Car Details:</p>
+    <table>
+    <tr>
+    <p> Make: {{ car.0.make }} {{car.0.registration_plate}}</p>
+    </tr>
+
+
+
+    </table>
+{% endblock %}
