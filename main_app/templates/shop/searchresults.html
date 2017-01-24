@@ -1,0 +1,23 @@
+{% extends "shop/base.html" %}
+{% block title %}Search results{% endblock %}
+
+{% block right %}
+
+        <ul>
+
+        {% for match in cars %}
+                <li><a href="/car/{{ match.4 }}/">{{ match.0 }} {{ match.1 }} {{ match.2 }} {{ match.3 }} </a></li>
+        {% endfor %}
+
+        {% for match in clients %}
+            <li><a href="/clients/">{{ match.0 }} {{ match.1 }}</a></li>
+        {% endfor %}
+
+        {% for match in employees %}
+            <li><a href="/employees/">{{ match.0 }} {{ match.1 }}</a></li>
+        {% endfor %}
+
+
+        </ul>
+
+{% endblock %}

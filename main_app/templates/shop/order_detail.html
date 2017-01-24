@@ -6,11 +6,76 @@
         <h2>Orders</h2>
         <ul>
             {% for order in orders %}
-            <li><a href="/orders/{{ order.order_id }}/">{{ order.client }}&nbsp Order ID:{{order.order_id}}</a></li>
+            <li><a href="/order/{{ order.order_id }}/">{{ order.client }}&nbsp Order ID:{{order.order_id}}</a></li>
             {% endfor %}
         </ul>
 {% endblock %}
 
+{% block css %}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+{% endblock %}
+
+
 {% block right %}
-<p> {{ order.0 }} </p>
+<h2>Order Details:</h2>
+    <table>
+        {% for name, value in order.items %}
+            <tr>
+                <td>{{ name }}:</td> <td>{{ value }}</br></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+<h2>Invoice:</h2>
+    {% if invoice %}
+<table>
+        <tr>
+        {% for name, value in invoice.items %}
+                <th>{{ name }}</th>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for name, value in invoice.items %}
+            <td>{{ value }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+    {% else %}
+        <h3>not found</h3>
+    {% endif %}
+
+<h2>Payment</h2>
+    {% if payment %}
+    <table>
+        <tr>
+        {% for name, value in payment.items %}
+                <th>{{ name }}</th>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for name, value in payment.items %}
+            <td>{{ value }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+    {% else %}
+        <h3> not found </h3>
+    {% endif %}
+
 {% endblock %}

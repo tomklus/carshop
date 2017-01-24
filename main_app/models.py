@@ -68,7 +68,7 @@ class Cars(models.Model):
 
 
 class Clients(models.Model):
-    client_id = models.IntegerField(primary_key=True)
+    client_id = models.IntegerField(db_column='client_id', primary_key=True)
     name = models.CharField(max_length=20, blank=True, null=True)
     surname = models.CharField(max_length=20, blank=True, null=True)
     address = models.ForeignKey(Addresses, blank=True, null=True)

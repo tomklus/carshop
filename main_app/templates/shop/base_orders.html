@@ -7,7 +7,7 @@
         <h2>Orders</h2>
         <ul>
             {% for order in orders %}
-            <li><a href="/orders/{{ order.order_id }}/">{{ order.client }}&nbsp Order ID:{{order.order_id}}</a></li>
+            <li><a href="/order/{{ order.order_id }}/">{{ order.client }}&nbsp No:{{order.order_id}}</a></li>
             {% endfor %}
         </ul>
 

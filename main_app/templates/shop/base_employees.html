@@ -1,0 +1,15 @@
+{% extends "shop/base.html" %}
+{% load staticfiles %}
+{% block title %}Employees{% endblock %}
+
+{% block middle %}
+        <h2>Our employees</h2>
+        <ul>
+            {% for employee in employees %}
+            <li><a href="/employee/{{ employee.employee_id }}/">{{ employee.name }} {{employee.surname}}</a></li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+
+{% block right %}
+{% endblock %}

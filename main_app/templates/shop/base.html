@@ -5,16 +5,32 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'new-age.css' %}" rel="stylesheet">
+
 
     <style type="text/css">
-* {margin: 0; padding: 1px;}
-#container {height: 100%; width:100%; font-size: 0;}
-#left, #middle, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;  padding: 15px}
-#left {width: 25%; background: blue;}
-#middle {width: 25%; background: green;}
-#right {width: 50%; background: yellow;}
+    * {margin: 0; padding: 1px;}
+    #container {height: 100%; width:100%; font-size: 0;}
+    #left, #middle, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;  padding: 15px}
+    #left {width: 15%; height: 800px !important; background: Gainsboro;}
+    #middle {width: 15%; height: 800px !important; background: FloralWhite ;}
+    #right {width: 70%; }
+    #li {margin-right: 5px;}
+                {% block css %}
+                {% endblock %}
+
     </style>
+
+    <script type="text/javascript">
+        function search(){
+        var x = document.getElementById("fullTextSearch").value;
+        window.location.href = "/search" += x;
+        window.location.reload(true);
+        }
+
+        function Redirect() {
+           window.location="http://www.tutorialspoint.com";
+            }
+      </script>
 
 </head>
 <body>
@@ -39,44 +55,26 @@
                 <a href="{% url 'main_app:employee_list' %}">Employees</a>
                 </li>
 
-                <li {% if section == "invoices" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:invoice_list' %}">Invoices</a>
-                </li>
-
                 <li {% if section == "orders" %} class="selected" {% endif %}>
                 <a href="{% url 'main_app:order_list' %}">Orders</a>
                 </li>
 
-                <li {% if section == "payments" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:payment_list' %}">Payments</a>
-                </li>
-
-                <li {% if section == "plates" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:plate_list' %}">Registration Plates</a>
-                </li>
-
-                <li {% if section == "testdrives" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:testdrive_list' %}">Test Drives</a>
-                </li>
-
-                 <li {% if section == "reservations" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:reservation_list' %}">Reservations</a>
-                </li>
-
-
-                 <li {% if section == "repairs" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:repair_list' %}">Repairs</a>
-                </li>
-
-
-                 <li {% if section == "equipments" %} class="selected" {% endif %}>
-                <a href="{% url 'main_app:equipment_list' %}">Equipments</a>
-                </li>
-
                 <li>
-                    <input id="fulltextSearch">
-                    <button type="button" onclick="">Search</button>
+                    <form method="POST" action="/search/">
+                    {% csrf_token %}
+                    <input type="text" name="textfield" size="15">
+
+                    <button type="submit">Search</button>
+                    </form>
+
+
                 </li>
+
+                <li {% if section == "admin" %} class="selected" {% endif %}>
+                <a href="{% url 'main_app:admin' %}">Admin</a>
+                </li>
+
+
             {% endblock %}
             </ul>
         </div>

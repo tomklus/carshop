@@ -1,0 +1,98 @@
+{% extends "shop/base_car.html" %}
+{% load staticfiles %}
+{% block title %}{{car.0.make}}{% endblock %}
+
+{% block middle %}
+    <div id="middle">
+        <h2>Avaliable Cars</h2>
+        <ul>
+            {% for car in cars %}
+            <li><a href="/car/{{ car.vin }}/">{{ car.make }}&nbsp{{car.model}}&nbsp{{car.production_year}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block css %}
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+{% endblock %}
+
+
+
+{% block right %}
+    <h2>Car Details:</h2>
+    <table>
+        {% for name, value in car.items %}
+            <tr>
+                <td>{{ name }} </td>
+                <td> {{ value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+        <h2>Car equipment:</h2>
+    {% if equipment %}
+    <table>
+        {% for name, value in equipment.items %}
+            <tr>
+                <td>{{ name }} </td>
+                <td> {% if value %} Yes {% else %} --- {% endif%}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <h3>not found</h3>
+    {% endif %}
+
+    <h2>Reservations:</h2>
+    {% if reservation %}
+    <table>
+        <tr>
+        {% for name, value in reservation.items %}
+                <th>{{ name }}</th>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for name, value in reservation.items %}
+            <td>{{ value }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+    {% else %}
+        <h3> not found </h3>
+    {% endif %}
+
+        <h2>Test drives:</h2>
+    {% if testdrive %}
+    <table>
+        <tr>
+        {% for name, value in testdrive.items %}
+                <th>{{ name }}</th>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for name, value in testdrive.items %}
+            <td>{{ value }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+    {% else %}
+        <h3> not found</h3>
+    {% endif %}
+
+{% endblock %}

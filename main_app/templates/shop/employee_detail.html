@@ -1,12 +1,12 @@
-{% extends "shop/base_clients.html" %}
+{% extends "shop/base_employees.html" %}
 {% load staticfiles %}
-{% block title %}{{client.0}}{% endblock %}
+{% block title %}{{employee.0}}{% endblock %}
 
 {% block middle %}
-        <h2>Our clients</h2>
+        <h2>Our employees</h2>
         <ul>
-            {% for client in clients %}
-            <li><a href="/client/{{ client.client_id }}/">{{ client.name }}&nbsp{{client.surname}}</a></li>
+            {% for employee in employees %}
+            <li><a href="/employee/{{ employee.employee_id }}/">{{ employee.name }} {{employee.surname}}</a></li>
             {% endfor %}
         </ul>
 {% endblock %}
@@ -32,10 +32,10 @@ tr:nth-child(even) {
 
 {% block right %}
 
-    <h2>Client Details:</h2>
+    <h2>Employee Details:</h2>
 
     <table>
-        {% for name, value in client.items %}
+        {% for name, value in employee.items %}
             <tr>
                 <td>{{ name }} </td>
                 <td> {{ value }}</td>
@@ -44,7 +44,7 @@ tr:nth-child(even) {
     </table>
 
 
-    <h2>Client address:</h2>
+    <h2>Employee address:</h2>
     {% if address %}
     <table>
         {% for name, value in address.items %}
